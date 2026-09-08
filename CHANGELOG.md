@@ -30,3 +30,8 @@
 
 - `CreerSalleDTO` et `CreerReservationDTO`, construits uniquement à partir de
   données déjà validées.
+
+## [0.7.0] - Accès aux données
+
+- Interfaces `SalleRepositoryInterface` et `ReservationRepositoryInterface`.
+- Implémentations Eloquent correspondantes, y compris la recherche de chevauchement.
