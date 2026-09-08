@@ -12,3 +12,7 @@
 - Configuration de `Capsule\Manager` à partir des variables d'environnement.
 - Chargement de `.env` via `vlucas/phpdotenv`.
 - Création de scripts de migration SQL isolés (`create_salles_table.php` et `create_reservations_table.php`) avec gestion des contraintes de clés étrangères.
+
+## V0.3.0 - Modèles
+
+- Modèles Eloquent `Salle` et `Reservation`, relation `hasMany` / `belongsTo`.
