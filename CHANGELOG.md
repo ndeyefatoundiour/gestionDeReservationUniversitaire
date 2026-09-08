@@ -1,4 +1,3 @@
-
 ## V1.0.0- Initialisation du dépôt
 
 - Dépôt Git initialisé, `.gitignore`, `README.md`, `CHANGELOG.md`.
@@ -36,10 +35,20 @@
 - Interfaces `SalleRepositoryInterface` et `ReservationRepositoryInterface`.
 - Implémentations Eloquent correspondantes, y compris la recherche de chevauchement.
 
-
-
 ## V0.8.0 - Services métier
 
 - `CreerReservationService` : implémente les 9 règles de disponibilité.
 - `AnnulerReservationService`.
 - Exceptions dédiées : `SalleIntrouvableException`, `SalleIndisponibleException`
+
+## V0.9.0 - Interface web
+
+- Contrôleurs `SalleController` et `ReservationController`.
+- Vues : layout de base, listes, détails, formulaires, pages d'erreur.
+- Échappement systématique des sorties dynamiques.
+
+## V0.10.0 - Routeur
+
+- Déclaration des routes dans `routes/web.php`.
+- Dispatch FastRoute avec gestion des réponses 404 et 405 (en-tête `Allow`).
+- Résolution des contrôleurs via le conteneur depuis `App\Application`.
