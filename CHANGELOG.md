@@ -16,3 +16,9 @@
 ## V0.3.0 - Modèles
 
 - Modèles Eloquent `Salle` et `Reservation`, relation `hasMany` / `belongsTo`.
+
+
+
+## V0.4.0 - Données initiales
+
+- Script `database/seed.php` : cinq salles de référence, idempotent.
