@@ -17,8 +17,11 @@
 
 - Modèles Eloquent `Salle` et `Reservation`, relation `hasMany` / `belongsTo`.
 
-
-
 ## V0.4.0 - Données initiales
 
 - Script `database/seed.php` : cinq salles de référence, idempotent.
+
+## V0.5.0 - Validation
+
+- `ValidatorInterface`, `ValidationResult`.
+- `SalleValidator` et `ReservationValidator` basés sur Respect\Validation.
