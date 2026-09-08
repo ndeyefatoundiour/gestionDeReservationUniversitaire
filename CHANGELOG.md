@@ -6,3 +6,9 @@
 ## V0.1.0 - Composer
 
 - Initialisation du projet Composer, autoloading PSR-4, arborescence du projet.
+
+## V0.2.0 - Eloquent
+
+- Configuration de `Capsule\Manager` à partir des variables d'environnement.
+- Chargement de `.env` via `vlucas/phpdotenv`.
+- Création de scripts de migration SQL isolés (`create_salles_table.php` et `create_reservations_table.php`) avec gestion des contraintes de clés étrangères.
