@@ -31,7 +31,15 @@
 - `CreerSalleDTO` et `CreerReservationDTO`, construits uniquement à partir de
   données déjà validées.
 
-## [0.7.0] - Accès aux données
+## V0.7.0 - Accès aux données
 
 - Interfaces `SalleRepositoryInterface` et `ReservationRepositoryInterface`.
 - Implémentations Eloquent correspondantes, y compris la recherche de chevauchement.
+
+
+
+## V0.8.0 - Services métier
+
+- `CreerReservationService` : implémente les 9 règles de disponibilité.
+- `AnnulerReservationService`.
+- Exceptions dédiées : `SalleIntrouvableException`, `SalleIndisponibleException`
