@@ -25,3 +25,8 @@
 
 - `ValidatorInterface`, `ValidationResult`.
 - `SalleValidator` et `ReservationValidator` basés sur Respect\Validation.
+
+## V0.6.0 - Objets de transport
+
+- `CreerSalleDTO` et `CreerReservationDTO`, construits uniquement à partir de
+  données déjà validées.
