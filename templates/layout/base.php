@@ -14,14 +14,12 @@
     </header>
 
     <main>
-        <!-- Affichage d'un message flash de succès si présent en session -->
         <?php if (isset($_SESSION['flash_success'])): ?>
             <div class="alert alert-success">
                 <?= e($_SESSION['flash_success']); unset($_SESSION['flash_success']); ?>
             </div>
         <?php endif; ?>
 
-        <!-- Injection dynamique du contenu spécifique de chaque vue -->
         <?= $content; ?>
     </main>
 
