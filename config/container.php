@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Application;
+use App\Controller\ReservationController;
+use App\Controller\SalleController;
+use App\Repository\EloquentReservationRepository;
+use App\Repository\EloquentSalleRepository;
+use App\Repository\ReservationRepositoryInterface;
+use App\Repository\SalleRepositoryInterface;
+use App\Service\AnnulerReservationService;
+use App\Service\CreerReservationService;
+use App\Service\CreerSalleService;
+use App\Service\ModifierSalleService;
+use App\Validation\ReservationValidator;
+use App\Validation\SalleValidator;
+use App\View\Renderer;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use FastRoute\Dispatcher;
+use Psr\Container\ContainerInterface;
+
+use function DI\autowire;
+use function DI\factory;
+use function DI\get;
+
+return [
+
+    SalleRepositoryInterface::class => autowire(EloquentSalleRepository::class),
+    ReservationRepositoryInterface::class => autowire(EloquentReservationRepository::class),
+
+    SalleValidator::class       => autowire(),
+    ReservationValidator::class => autowire(),
+    Renderer::class             => autowire(),
+
+    CreerReservationService::class   => autowire(),
+    AnnulerReservationService::class => autowire(),
+    CreerSalleService::class         => autowire(),
+    ModifierSalleService::class      => autowire(),
+
+    SalleController::class       => autowire(),
+    ReservationController::class => autowire(),
+
+    Capsule::class => factory(function (): Capsule {
+        $capsule = new Capsule();
+        $capsule->addConnection([
+            'driver'    => $_ENV['DB_DRIVER'] ?? 'mysql',
+            'host'      => $_ENV['DB_HOST'] ?? 'db',
+            'database'  => $_ENV['DB_DATABASE'] ?? 'reservation_salles',
+            'username'  => $_ENV['DB_USERNAME'] ?? 'root',
+            'password'  => $_ENV['DB_PASSWORD'] ?? 'root_password',
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix'    => '',
+        ]);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        return $capsule;
+    }),
+
+    Dispatcher::class => factory(function (): Dispatcher {
+        return require dirname(__DIR__) . '/routes/web.php';
+    }),
+
+    Application::class => factory(function (ContainerInterface $c): Application {
+        $c->get(Capsule::class);
+        
+        return new Application(
+            $c->get(Dispatcher::class),
+            $c
+        );
+    }),
+];
