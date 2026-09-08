@@ -14,17 +14,15 @@ final class AnnulerReservationService
     ) {
     }
 
-    /**
-     * @throws ReservationIntrouvableException
-     */
-    public function executer(int $reservationId): void
+   
+    public function annuler(int $id): void
     {
-        $reservation = $this->reservationRepository->trouverParId($reservationId);
+        $reservation = $this->reservationRepository->trouver($id);
         
         if (null === $reservation) {
-            throw new ReservationIntrouvableException("La réservation à annuler est introuvable.");
+            throw ReservationIntrouvableException::pourId($id);
         }
 
-        $this->reservationRepository->annuler($reservationId);
+        $this->reservationRepository->annuler($id);
     }
 }
