@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Application;
+use App\Database\CapsuleManager;
+use App\HttpApplication;
 use App\Controller\ReservationController;
 use App\Controller\SalleController;
 use App\Repository\EloquentReservationRepository;
@@ -41,34 +43,19 @@ return [
     SalleController::class       => autowire(),
     ReservationController::class => autowire(),
 
-    Capsule::class => factory(function (): Capsule {
-        $capsule = new Capsule();
-        $capsule->addConnection([
-            'driver'    => $_ENV['DB_DRIVER'] ?? 'mysql',
-            'host'      => $_ENV['DB_HOST'] ?? 'db',
-            'database'  => $_ENV['DB_DATABASE'] ?? 'reservation_salles',
-            'username'  => $_ENV['DB_USERNAME'] ?? 'root',
-            'password'  => $_ENV['DB_PASSWORD'] ?? 'root_password',
-            'charset'   => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix'    => '',
-        ]);
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
-
-        return $capsule;
-    }),
+    Capsule::class => factory(CapsuleManager::create(...)),
 
     Dispatcher::class => factory(function (): Dispatcher {
         return require dirname(__DIR__) . '/routes/web.php';
     }),
 
-    Application::class => factory(function (ContainerInterface $c): Application {
-        $c->get(Capsule::class);
-        
-        return new Application(
-            $c->get(Dispatcher::class),
-            $c
+    Application::class => autowire(),
+    HttpApplication::class => factory(function (ContainerInterface $container): HttpApplication {
+        $container->get(Capsule::class);
+
+        return new HttpApplication(
+            $container->get(Dispatcher::class),
+            $container,
         );
     }),
 ];

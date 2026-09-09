@@ -2,7 +2,7 @@
 
 <h2>Liste des salles universitaires</h2>
 <div class="actions">
-    <a href="/salles/creer" class="btn btn-primary">➕ Ajouter une nouvelle salle</a>
+    <a href="/salles/create" class="btn btn-primary">➕ Ajouter une nouvelle salle</a>
 </div>
 
 <table class="table">
@@ -30,7 +30,7 @@
                 </td>
                 <td>
                     <a href="/salles/<?= e($salle->id); ?>">👁️ Voir</a> | 
-                    <a href="/salles/<?= e($salle->id); ?>/modifier">✏️ Modifier</a>
+                    <a href="/salles/<?= e($salle->id); ?>/edit">✏️ Modifier</a>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -2,7 +2,7 @@
 
 <h2><?= $isEdit ? '✏️ Modifier la salle' : '➕ Ajouter une nouvelle salle'; ?></h2>
 
-<form method="POST" class="form">
+<form method="POST" action="<?= $isEdit ? '/salles/' . e($salle->id) . '/edit' : '/salles'; ?>" class="form">
     <div class="form-group <?= has_error($errors, 'nom') ? 'has-error' : ''; ?>">
         <label for="nom">Nom de la salle :</label>
         <input type="text" id="nom" name="nom" value="<?= old($old, 'nom', $salle->nom ?? ''); ?>">

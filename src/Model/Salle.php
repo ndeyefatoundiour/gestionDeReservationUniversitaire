@@ -8,6 +8,8 @@ class Salle extends Model
 {
     protected $table = 'salles';
 
+    public const TYPES = ['cours', 'informatique', 'laboratoire', 'amphitheatre', 'reunion'];
+
     protected $fillable = [
         'nom', 
         'batiment', 

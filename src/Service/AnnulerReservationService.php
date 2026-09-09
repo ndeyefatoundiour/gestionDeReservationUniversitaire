@@ -17,7 +17,7 @@ final class AnnulerReservationService
    
     public function annuler(int $id): void
     {
-        $reservation = $this->reservationRepository->trouver($id);
+        $reservation = $this->reservationRepository->trouverParId($id);
         
         if (null === $reservation) {
             throw ReservationIntrouvableException::pourId($id);

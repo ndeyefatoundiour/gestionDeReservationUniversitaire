@@ -23,7 +23,7 @@ final class CreerReservationService
     
     public function creer(CreerReservationDTO $dto): Reservation
     {
-        $salle = $this->salleRepository->trouver($dto->salleId);
+        $salle = $this->salleRepository->trouverParId($dto->salleId);
         if (null === $salle) {
             throw SalleIntrouvableException::pourId($dto->salleId);
         }

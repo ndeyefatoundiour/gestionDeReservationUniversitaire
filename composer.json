@@ -17,5 +17,14 @@
         "illuminate/database": "^12.0",
         "php-di/php-di": "^7.0",
         "vlucas/phpdotenv": "^5.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "scripts": {
+        "db:migrate": "php public/index.php migrate",
+        "db:seed": "php public/index.php seed",
+        "db:setup": "php public/index.php setup",
+        "test": "phpunit"
     }
 }

@@ -11,7 +11,7 @@
 
 <p>
     <a href="/salles" class="btn">🔙 Retour à la liste</a>
-    <a href="/salles/<?= e($salle->id); ?>/modifier" class="btn btn-primary">Modifier cette salle</a>
+    <a href="/salles/<?= e($salle->id); ?>/edit" class="btn btn-primary">Modifier cette salle</a>
 </p>
 
 <?php 

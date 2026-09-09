@@ -2,7 +2,7 @@
 
 <h2>📅 Réserver une salle universitaire</h2>
 
-<form method="POST" class="form">
+<form method="POST" action="/reservations" class="form">
     <div class="form-group <?= has_error($errors, 'salle_id') ? 'has-error' : ''; ?>">
         <label for="salle_id">Sélectionnez la salle :</label>
         <select id="salle_id" name="salle_id">

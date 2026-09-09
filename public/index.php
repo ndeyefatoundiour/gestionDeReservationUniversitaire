@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Application;
+use App\HttpApplication;
 use DI\ContainerBuilder;
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -19,5 +20,9 @@ $builder->addDefinitions(
 
 $container = $builder->build();
 
-$application = $container->get(Application::class);
-$application->run();
+if (PHP_SAPI === 'cli') {
+    $container->get(Application::class)->run();
+    return;
+}
+
+$container->get(HttpApplication::class)->run();

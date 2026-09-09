@@ -6,7 +6,7 @@ namespace App\DTO;
 
 use DateTimeImmutable;
 
-final class CreerReservationDTO
+final class CreerReservationDTOBuilder
 {
     private int $salleId;
     private string $responsable;

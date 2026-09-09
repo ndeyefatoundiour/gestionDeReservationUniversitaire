@@ -52,3 +52,17 @@
 - Déclaration des routes dans `routes/web.php`.
 - Dispatch FastRoute avec gestion des réponses 404 et 405 (en-tête `Allow`).
 - Résolution des contrôleurs via le conteneur depuis `App\Application`.
+
+## V0.11.0 - Conteneur d'injection
+
+- Configuration de PHP-DI (`config/container.php`) : autowiring pour les
+  classes concrètes, définitions explicites pour les interfaces, factory
+  pour la connexion Eloquent et le dispatcher FastRoute.
+- Simplification de `public/index.php` en point d'entrée unique.
+
+## V0.12.0 - Tests
+
+- Tests unitaires du service de création de réservation (8 scénarios).
+- Tests unitaires des validateurs de salle et de réservation.
+- Tests d'intégration Eloquent (relations, chevauchement, annulation) sur SQLite en mémoire.
+- Doublures en mémoire des repositories pour les tests unitaires (aucune dépendance à MySQL).

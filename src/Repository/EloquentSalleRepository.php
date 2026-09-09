@@ -28,6 +28,7 @@ final class EloquentSalleRepository implements SalleRepositoryInterface
             'capacite' => $dto->capacite,
             'type' => $dto->type,
             'active' => $dto->active,
-        ]);
+        ]);    
     }
+ 
 }

@@ -14,7 +14,7 @@
             <?php endforeach; ?>
         </select>
     </form>
-    <a href="/reservations/creer" class="btn btn-primary">📅 Nouvelle Réservation</a>
+    <a href="/reservations/create" class="btn btn-primary">📅 Nouvelle Réservation</a>
 </div>
 
 <table class="table">

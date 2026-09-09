@@ -47,8 +47,8 @@ $sallesPredefinies = [
 
 foreach ($sallesPredefinies as $donneesSalle) {
     Salle::updateOrCreate(
-        ['nom' => $donneesSalle['nom']], 
-        $donneesSalle                    
+        ['nom' => $donneesSalle['nom']],
+        $donneesSalle
     );
 }
 

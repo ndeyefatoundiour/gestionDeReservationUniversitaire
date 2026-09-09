@@ -7,7 +7,8 @@ use App\Controller\SalleController;
 use App\Controller\ReservationController;
 
 return FastRoute\simpleDispatcher(function (RouteCollector $r) {
-    $r->addRoute('GET', '/Accueil', [SalleController::class, 'index']); 
+    $r->addRoute('GET', '/', [ReservationController::class, 'index']);
+    $r->addRoute('GET', '/Accueil', [ReservationController::class, 'index']); 
 
     $r->addRoute('GET', '/salles', [SalleController::class, 'index']);
     $r->addRoute('GET', '/salles/create', [SalleController::class, 'create']);

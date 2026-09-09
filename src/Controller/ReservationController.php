@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\CreerReservationDTO;
+use App\Exception\DonneesInvalidesException;
 use App\Exception\PeriodeInvalideException;
 use App\Exception\ReservationIntrouvableException;
 use App\Exception\SalleIndisponibleException;
@@ -13,7 +14,6 @@ use App\Repository\ReservationRepositoryInterface;
 use App\Repository\SalleRepositoryInterface;
 use App\Service\AnnulerReservationService;
 use App\Service\CreerReservationService;
-use App\Validation\ReservationValidator;
 use App\View\Renderer;
 
 final class ReservationController
@@ -21,7 +21,6 @@ final class ReservationController
     public function __construct(
         private readonly ReservationRepositoryInterface $reservations,
         private readonly SalleRepositoryInterface $salles,
-        private readonly ReservationValidator $validator,
         private readonly CreerReservationService $creerReservationService,
         private readonly AnnulerReservationService $annulerReservationService,
         private readonly Renderer $renderer,
@@ -36,8 +35,8 @@ final class ReservationController
             : null;
 
         $this->renderer->render('reservation/index', [
-            'reservations' => $this->reservations->toutes($salleId),
-            'salles' => $this->salles->toutes(),
+            'reservations' => $this->reservations->listerTous(),
+            'salles' => $this->salles->listerTous(),
             'selectedSalleId' => $salleId,
         ]);
     }
@@ -45,9 +44,10 @@ final class ReservationController
     
     public function show(array $params): void
     {
-        $reservation = $this->reservations->trouver((int) $params['id']);
+        $reservation = $this->reservations->trouverParId((int) $params['id']);
 
         if (null === $reservation) {
+            http_response_code(404);
             $this->renderer->render('error/404');
             return;
         }
@@ -70,14 +70,12 @@ final class ReservationController
     
     public function store(array $params): void
     {
-        $resultat = $this->validator->validate($_POST);
-
-        if (!$resultat->isValid()) {
-            $this->afficherFormulaireAvecErreurs($resultat->errors(), $_POST);
+        try {
+            $dto = CreerReservationDTO::depuisDonneesValidees($_POST);
+        } catch (DonneesInvalidesException $exception) {
+            $this->afficherFormulaireAvecErreurs($exception->errors(), $_POST);
             return;
         }
-
-        $dto = CreerReservationDTO::depuisDonneesValidees($resultat->data());
 
         try {
             $reservation = $this->creerReservationService->creer($dto);
@@ -100,6 +98,7 @@ final class ReservationController
         try {
             $this->annulerReservationService->annuler($id);
         } catch (ReservationIntrouvableException) {
+            http_response_code(404);
             $this->renderer->render('error/404');
             return;
         }
@@ -110,10 +109,10 @@ final class ReservationController
    
     private function sallesActives(): array
     {
-        return array_values(array_filter(
-            $this->salles->toutes(),
-            static fn ($salle) => $salle->active,
-        ));
+        return $this->salles->listerTous()
+            ->filter(static fn ($salle) => $salle->active)
+            ->values()
+            ->all();
     }
 
     
