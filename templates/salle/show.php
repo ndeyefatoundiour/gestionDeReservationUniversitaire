@@ -1,18 +1,33 @@
 <?php ob_start(); ?>
 
-<h2>Détails de la salle : <?= e($salle->nom); ?></h2>
+<div class="content-panel detail-card">
+    <div class="toolbar">
+        <h2><span class="btn-icon">▣</span> <?= e($salle->nom); ?></h2>
+        <span class="status <?= $salle->active ? 'active' : 'inactive'; ?>"><?= $salle->active ? 'Disponible' : 'Indisponible'; ?></span>
+    </div>
 
-<div class="card">
-    <p><strong>Bâtiment :</strong> <?= e($salle->batiment); ?></p>
-    <p><strong>Capacité maximale :</strong> <?= e($salle->capacite); ?> places</p>
-    <p><strong>Type de salle :</strong> <?= e($salle->type); ?></p>
-    <p><strong>Statut de disponibilité :</strong> <?= $salle->active ? 'Disponible à la réservation' : 'Indisponible'; ?></p>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="label">Bâtiment</span>
+            <strong><?= e($salle->batiment); ?></strong>
+        </div>
+
+        <div class="detail-item">
+            <span class="label">Capacité</span>
+            <strong><?= e($salle->capacite); ?> places</strong>
+        </div>
+
+        <div class="detail-item full">
+            <span class="label">Type</span>
+            <strong><?= e($salle->type); ?></strong>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a href="/salles" class="btn"><span class="btn-icon">←</span> Retour</a>
+        <a href="/salles/<?= e($salle->id); ?>/edit" class="btn btn-primary"><span class="btn-icon">✎</span> Modifier</a>
+    </div>
 </div>
-
-<p>
-    <a href="/salles" class="btn">🔙 Retour à la liste</a>
-    <a href="/salles/<?= e($salle->id); ?>/edit" class="btn btn-primary">Modifier cette salle</a>
-</p>
 
 <?php 
 $content = ob_get_clean(); 

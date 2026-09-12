@@ -2,37 +2,32 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Salles et Réservations Universitaires</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background: #f4f6f9; }
-        nav { background: #003366; padding: 15px; color: white; }
-        nav a { color: white; text-decoration: none; margin-right: 15px; font-weight: bold; }
-        main { max-width: 1100px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
-        th { background: #f8f9fa; }
-        select, input { color: #222; background: #fff; }
-        select { appearance: auto; min-height: 38px; cursor: pointer; }
-        select:focus, input:focus { outline: 2px solid #2b78c5; outline-offset: 1px; }
-        .btn { display: inline-block; padding: 8px 15px; text-decoration: none; border-radius: 4px; background: #003366; color: white; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+    <header class="topbar">
+        <div class="container nav-wrap">
+            <div class="brand">
+                <span class="brand-mark">U</span>
+                <span>Université</span>
+            </div>
+            <nav class="main-nav">
+                <a href="/salles"><span class="nav-icon">▣</span> Salles</a>
+                <a href="/reservations"><span class="nav-icon">◫</span> Réservations</a>
+            </nav>
+        </div>
+    </header>
 
-    <nav>
-        <a href="/salles">🏛️ Salles</a>
-        <a href="/reservations">📅 Réservations</a>
-    </nav>
-
-    <main>
+    <main class="container page-shell">
         <?php if (isset($_SESSION['flash_success'])): ?>
-            <div style="background: #dff0d8; color: #3c763d; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+            <div class="alert-success">
                 <?= htmlspecialchars((string) $_SESSION['flash_success'], ENT_QUOTES, 'UTF-8'); unset($_SESSION['flash_success']); ?>
             </div>
         <?php endif; ?>
 
         <?php if (isset($content)) { echo $content; } ?>
     </main>
-
 </body>
 </html>
