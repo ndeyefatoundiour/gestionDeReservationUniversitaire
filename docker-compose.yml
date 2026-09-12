@@ -8,7 +8,12 @@ services:
       - .:/var/www/html
     env_file:
       - .env
-    command: bash -lc "until nc -z ${DB_HOST} ${DB_PORT}; do echo 'En attente de MySQL...'; sleep 2; done; php public/index.php setup && apache2-foreground"
+    command: >
+      bash -lc "until bash -c '>/dev/tcp/${DB_HOST}/${DB_PORT}' >/dev/null 2>&1; do
+      echo 'En attente de MySQL...';
+      sleep 2;
+      done;
+      php public/index.php setup && apache2-foreground"
     environment:
       APP_ENV: ${APP_ENV}
       APP_DEBUG: ${APP_DEBUG}
