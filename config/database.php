@@ -6,15 +6,22 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 $capsule = new Capsule();
 
-$driver = $_ENV['DB_DRIVER'] ?? getenv('DB_DRIVER') ?: 'mysql';
+$driver = $_ENV['DB_DRIVER'] ?? $_ENV['DB_CONNECTION'] ?? getenv('DB_DRIVER') ?: getenv('DB_CONNECTION') ?: 'mysql';
 $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
 $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: 3306;
 $database = $_ENV['DB_DATABASE'] ?? getenv('DB_DATABASE');
 $username = $_ENV['DB_USERNAME'] ?? getenv('DB_USERNAME');
 $password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD');
 
-if ($host === false || $host === null || $host === '' || $database === false || $database === null || $database === '' || $username === false || $username === null || $username === '' || $password === false || $password === null || $password === '') {
-    throw new \RuntimeException('Configuration DB incomplète. Vérifie DB_HOST, DB_DATABASE, DB_USERNAME et DB_PASSWORD dans Render ou dans le .env.');
+if (
+    $host === false || $host === null || $host === '' ||
+    $database === false || $database === null || $database === '' ||
+    $username === false || $username === null || $username === '' ||
+    $password === false || $password === null || $password === ''
+) {
+    throw new \RuntimeException(
+        'Configuration DB incomplète. Vérifie DB_HOST, DB_DATABASE, DB_USERNAME et DB_PASSWORD dans Render ou dans le .env.'
+    );
 }
 
 try {
