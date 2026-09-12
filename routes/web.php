@@ -21,5 +21,7 @@ return FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/reservations/create', [ReservationController::class, 'create']);
     $r->addRoute('POST', '/reservations', [ReservationController::class, 'store']);
     $r->addRoute('GET', '/reservations/{id:\d+}', [ReservationController::class, 'show']);
-    $r->addRoute('POST', '/reservations/{id:\d+}/cancel', [ReservationController::class, 'cancel']);
+    $r->addRoute('GET', '/reservations/{id:\d+}/edit', [ReservationController::class, 'edit']);
+    $r->addRoute('POST', '/reservations/{id:\d+}/edit', [ReservationController::class, 'update']);
+    $r->addRoute('POST', '/reservations/{id:\d+}/annuler', [ReservationController::class, 'cancel']);
 });

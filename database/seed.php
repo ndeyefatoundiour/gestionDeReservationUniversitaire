@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__, 1) . '/vendor/autoload.php';
-$capsule = require_once dirname(__DIR__, 1) . '/config/database.php';
+$capsule = require dirname(__DIR__, 1) . '/config/database.php';
 
 use App\Model\Salle;
 
@@ -46,10 +46,8 @@ $sallesPredefinies = [
 ];
 
 foreach ($sallesPredefinies as $donneesSalle) {
-    Salle::updateOrCreate(
-        ['nom' => $donneesSalle['nom']],
-        $donneesSalle
-    );
+    
+    Salle::updateOrCreate(['nom' => $donneesSalle['nom']],$donneesSalle);
 }
 
 echo "Données initiales insérées avec succès dans MySQL !\n";

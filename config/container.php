@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Application;
-use App\Database\CapsuleManager;
 use App\HttpApplication;
 use App\Controller\ReservationController;
 use App\Controller\SalleController;
@@ -14,6 +13,7 @@ use App\Repository\SalleRepositoryInterface;
 use App\Service\AnnulerReservationService;
 use App\Service\CreerReservationService;
 use App\Service\CreerSalleService;
+use App\Service\ModifierReservationService;
 use App\Service\ModifierSalleService;
 use App\Validation\ReservationValidator;
 use App\Validation\SalleValidator;
@@ -35,15 +35,18 @@ return [
     ReservationValidator::class => autowire(),
     Renderer::class             => autowire(),
 
-    CreerReservationService::class   => autowire(),
-    AnnulerReservationService::class => autowire(),
-    CreerSalleService::class         => autowire(),
-    ModifierSalleService::class      => autowire(),
+    CreerReservationService::class    => autowire(),
+    ModifierReservationService::class => autowire(),
+    AnnulerReservationService::class  => autowire(),
+    CreerSalleService::class          => autowire(),
+    ModifierSalleService::class       => autowire(),
 
     SalleController::class       => autowire(),
     ReservationController::class => autowire(),
 
-    Capsule::class => factory(CapsuleManager::create(...)),
+    Capsule::class => factory(function (): Capsule {
+        return require dirname(__DIR__) . '/config/database.php';
+    }),
 
     Dispatcher::class => factory(function (): Dispatcher {
         return require dirname(__DIR__) . '/routes/web.php';

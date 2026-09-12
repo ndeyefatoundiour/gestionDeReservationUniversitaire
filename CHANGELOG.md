@@ -1,4 +1,4 @@
-## V1.0.0- Initialisation du dépôt
+## V0.0.0- Initialisation du dépôt
 
 - Dépôt Git initialisé, `.gitignore`, `README.md`, `CHANGELOG.md`.
 

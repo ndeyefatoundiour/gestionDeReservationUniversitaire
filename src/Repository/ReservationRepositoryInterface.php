@@ -17,6 +17,8 @@ interface ReservationRepositoryInterface
 
     public function enregistrer(CreerReservationDTO $dto): Reservation;
 
+    public function modifier(Reservation $reservation, CreerReservationDTO $dto): Reservation;
+
     public function annuler(int $id): bool;
 
     public function rechercherConflit(int $salleId, \DateTimeImmutable $debut, \DateTimeImmutable $fin): bool;

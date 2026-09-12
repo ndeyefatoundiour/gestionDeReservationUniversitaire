@@ -33,6 +33,20 @@ final class EloquentReservationRepository implements ReservationRepositoryInterf
         ]);
     }
 
+    public function modifier(Reservation $reservation, CreerReservationDTO $dto): Reservation
+    {
+        $reservation->update([
+            'salle_id' => $dto->salleId,
+            'responsable' => $dto->responsable,
+            'email' => $dto->email,
+            'motif' => $dto->motif,
+            'date_debut' => $dto->dateDebut->format('Y-m-d H:i:s'),
+            'date_fin' => $dto->dateFin->format('Y-m-d H:i:s'),
+        ]);
+
+        return $reservation->fresh();
+    }
+
     public function annuler(int $id): bool
     {
         $reservation = Reservation::find($id);

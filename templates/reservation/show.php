@@ -17,6 +17,7 @@
 
 <p class="actions-buttons">
     <a href="/reservations" class="btn">🔙 Retour à la liste</a>
+    <a href="/reservations/<?= e($reservation->id); ?>/edit" class="btn btn-primary">✏️ Modifier</a>
     
     <?php if ($reservation->statut === 'confirmée'): ?>
         <form method="POST" action="/reservations/<?= e($reservation->id); ?>/annuler" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')">

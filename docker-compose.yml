@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build: .
@@ -8,6 +6,7 @@ services:
       - "8085:80"
     volumes:
       - .:/var/www/html
+    command: bash -lc "until nc -z db 3306; do echo 'En attente de MySQL...'; sleep 2; done; php public/index.php setup && apache2-foreground"
     environment:
       - APP_ENV=development
       - DB_HOST=db
@@ -16,17 +15,24 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=root_password
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:8.0
     container_name: resasalles_db
     restart: always
     ports:
-      - "3306:3306"
+      - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: reservation_salles
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
     volumes:
       - db_data:/var/lib/mysql
 

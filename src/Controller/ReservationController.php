@@ -14,6 +14,7 @@ use App\Repository\ReservationRepositoryInterface;
 use App\Repository\SalleRepositoryInterface;
 use App\Service\AnnulerReservationService;
 use App\Service\CreerReservationService;
+use App\Service\ModifierReservationService;
 use App\View\Renderer;
 
 final class ReservationController
@@ -22,6 +23,7 @@ final class ReservationController
         private readonly ReservationRepositoryInterface $reservations,
         private readonly SalleRepositoryInterface $salles,
         private readonly CreerReservationService $creerReservationService,
+        private readonly ModifierReservationService $modifierReservationService,
         private readonly AnnulerReservationService $annulerReservationService,
         private readonly Renderer $renderer,
     ) {
@@ -91,6 +93,70 @@ final class ReservationController
     }
 
     
+    public function edit(array $params): void
+    {
+        $reservation = $this->reservations->trouverParId((int) $params['id']);
+        if (null === $reservation) {
+            http_response_code(404);
+            $this->renderer->render('error/404');
+            return;
+        }
+
+        $this->renderer->render('reservation/form', [
+            'salles' => $this->sallesActives(),
+            'reservation' => $reservation,
+            'errors' => [],
+            'old' => [
+                'salle_id' => (string) $reservation->salle_id,
+                'responsable' => $reservation->responsable,
+                'email' => $reservation->email,
+                'motif' => $reservation->motif,
+                'date_debut' => $reservation->date_debut->format('Y-m-d\TH:i'),
+                'date_fin' => $reservation->date_fin->format('Y-m-d\TH:i'),
+            ],
+            'isEdit' => true,
+        ]);
+    }
+
+    public function update(array $params): void
+    {
+        $id = (int) $params['id'];
+        $reservation = $this->reservations->trouverParId($id);
+        if (null === $reservation) {
+            http_response_code(404);
+            $this->renderer->render('error/404');
+            return;
+        }
+
+        try {
+            $dto = CreerReservationDTO::depuisDonneesValidees($_POST);
+        } catch (DonneesInvalidesException $exception) {
+            $this->renderer->render('reservation/form', [
+                'salles' => $this->sallesActives(),
+                'reservation' => $reservation,
+                'errors' => $exception->errors(),
+                'old' => $_POST,
+                'isEdit' => true,
+            ]);
+            return;
+        }
+
+        try {
+            $this->modifierReservationService->modifier($reservation, $dto);
+        } catch (SalleIntrouvableException|SalleIndisponibleException|PeriodeInvalideException $exception) {
+            $this->renderer->render('reservation/form', [
+                'salles' => $this->sallesActives(),
+                'reservation' => $reservation,
+                'errors' => ['salle_id' => [$exception->getMessage()]],
+                'old' => $_POST,
+                'isEdit' => true,
+            ]);
+            return;
+        }
+
+        $this->rediriger('/reservations/' . $id, 'Réservation modifiée.');
+    }
+
     public function cancel(array $params): void
     {
         $id = (int) $params['id'];

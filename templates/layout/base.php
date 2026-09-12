@@ -11,6 +11,9 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
         th { background: #f8f9fa; }
+        select, input { color: #222; background: #fff; }
+        select { appearance: auto; min-height: 38px; cursor: pointer; }
+        select:focus, input:focus { outline: 2px solid #2b78c5; outline-offset: 1px; }
         .btn { display: inline-block; padding: 8px 15px; text-decoration: none; border-radius: 4px; background: #003366; color: white; font-weight: bold; }
     </style>
 </head>

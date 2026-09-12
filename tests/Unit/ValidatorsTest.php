@@ -27,6 +27,35 @@ final class ValidatorsTest extends TestCase
         $this->assertArrayHasKey('email', $resultat->errors());
     }
 
+    public function testValidationReservationResponsableTexte(): void
+    {
+        $validator = new ReservationValidator();
+
+        $resultatValide = $validator->validate([
+            'salle_id' => 1,
+            'responsable' => 'Professeur Diop',
+            'email' => 'prof@univ.sn',
+            'motif' => 'Cours de PHP',
+            'date_debut' => '2027-10-15 10:00:00',
+            'date_fin' => '2027-10-15 12:00:00'
+        ]);
+
+        $this->assertTrue($resultatValide->isValid());
+        $this->assertSame('Professeur Diop', $resultatValide->data()['responsable']);
+
+        $resultatInvalide = $validator->validate([
+            'salle_id' => 1,
+            'responsable' => 'A',
+            'email' => 'prof@univ.sn',
+            'motif' => 'Cours de PHP',
+            'date_debut' => '2027-10-15 10:00:00',
+            'date_fin' => '2027-10-15 12:00:00'
+        ]);
+
+        $this->assertFalse($resultatInvalide->isValid());
+        $this->assertArrayHasKey('responsable', $resultatInvalide->errors());
+    }
+
     public function testValidationSalleInvalide(): void
     {
         $validator = new SalleValidator();
