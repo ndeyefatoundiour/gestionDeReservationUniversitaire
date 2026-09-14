@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use App\Application;
 use App\HttpApplication;
-use App\Controller\ReservationController;
-use App\Controller\SalleController;
 use App\Repository\EloquentReservationRepository;
 use App\Repository\EloquentSalleRepository;
 use App\Repository\ReservationRepositoryInterface;
@@ -40,9 +38,6 @@ return [
     AnnulerReservationService::class  => autowire(),
     CreerSalleService::class          => autowire(),
     ModifierSalleService::class       => autowire(),
-
-    SalleController::class       => autowire(),
-    ReservationController::class => autowire(),
 
     Capsule::class => factory(function (): Capsule {
         return require dirname(__DIR__) . '/config/database.php';
